@@ -1,0 +1,278 @@
+@use'variables' as *;
+@use'function' as *;
+
+/* 共用區 */
+img {
+    display: block;
+    width: 100%;
+}
+/* bs換圖輪播 */
+.carousel{
+    img{
+        object-fit: cover;
+        height: 100%;
+    }
+}
+.carousel-item{
+    height: calc(100vh - 70px);
+}
+//導覽列
+.navbar{
+    img{
+        height: 70px;
+        .navbar-brand{
+            img{
+                height: 45px;
+            }
+        }
+    }
+}
+.btn-search{
+    width: 5rem;
+}
+
+//偽元素存在於內容區範圍
+// .title::after {
+//     content: '';
+//     display: block;
+//     background-color: map-get($color , dark);
+//     height: 3px;
+// }
+
+.title {
+    position: relative;
+    @include bordered-l;
+    padding-left: 1.5rem;
+    margin: 85px 0 35px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: map-get($color , dark);
+
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 11rem; //定位要相對於文字字即可用rem單位
+        bottom: 2px;
+        background-color: map-get($color , dark);
+        width: calc(100% - 11.5rem);
+        height: 3px;
+    }
+
+    h3 {
+        line-height: 1; //預設h3行高為1.2，改為1
+
+        span {
+            font: {
+                size: 1rem;
+            }
+        }
+    }
+}
+
+//傾斜遮色片
+.mask-tilt {
+    mask-image: url(../images/mask.svg);
+    mask-position: center;
+    mask-repeat: no-repeat;
+
+    @media($media-md) {
+        mask-size: 90% 100%;
+
+    }
+
+    @media($media-lg) {
+        mask-size: 92% 100%;
+
+    }
+}
+
+.mask {
+    mask-size: 100% 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+}
+
+.blobs-1 {
+    mask-image: url(../images/blobs-1.svg);
+}
+
+.blobs-2 {
+    mask-image: url(../images/blobs-2.svg);
+}
+
+.blobs-3 {
+    mask-image: url(../images/blobs-3.svg);
+}
+
+
+
+/* 最新商品 */
+#new {
+    a {
+        position: relative;
+        color: map-get($color , light);
+
+        &:hover {
+            h2 {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            transition: .4s;
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex; //控制孩子
+            text-align: center;
+            align-items: center;
+            background-color: map-get($color , alpha-w-40);
+
+        }
+    }
+
+}
+
+/* 熱門商品 */
+#hot {
+    .col {
+        position: relative;
+
+        h2 {
+            position: absolute;
+            width: 100%;
+            top: calc(50% - 2rem);
+            left: calc(50% - 7.5rem);
+            z-index: 2;
+            font-size: map-get($font-size, xxl);
+            color: map-get($color , light);
+            text-shadow: 1px 1px 0 map-get($color , dark);
+        }
+
+        .clip {
+            display: block;
+            //clip-path: circle(50%); //圓形
+            //clip-path:ellipse(50% 30% at 50% 50%); //xy50%為置中 //橢圓形
+            clip-path: polygon(0 0, 100% 0, 50% 100%); //倒三角
+            // clip-path: polygon(25% 0,100% 0,75% 100%, 0 100%); //平行四邊形
+
+            &:hover {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background-color: map-get($color , alpha-b-40);
+                }
+            }
+
+        }
+    }
+}
+
+//推薦商品
+#acc {
+    .title {
+        &::after {
+            content: '';
+            left: 15rem;
+            width: calc(100% - 15rem);
+        }
+    }
+}
+
+#tabs {
+    width: 80%;
+    margin: 0 auto;
+
+    .content {
+        padding: map-get($interval, xxl);
+
+        >* {
+            //第一層全部標籤
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            display: inline-block;
+            color: map-get($color, light);
+            background-color: map-get($color, dark);
+            padding: map-get($interval, s) map-get($interval, m);
+            box-shadow: $box-shadow-mark;
+        }
+
+        data {
+            display: block;
+        }
+
+        mark {
+            font-weight: 600;
+            font-size: map-get($font-size, l);
+            background-color: map-get($color, mark);
+        }
+
+    }
+}
+
+.tabs-btn {
+    display: flex;
+
+    li {
+        flex: 1;
+    }
+}
+
+//jquery ui tabs
+//取消頁籤按鈕容器樣式
+.ui-widget-header {
+    background: transparent;
+    border: none;
+}
+
+//修改頁籤按鈕樣式
+.ui-tabs .ui-tabs-nav li {
+    border-bottom-width: 1px;
+    border-radius: 3px;
+}
+
+//修改active的樣式
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    border: 1px solid map-get($color, deep);
+    background: transparent;
+}
+
+//取消圖片內距
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+    display: flex;
+
+    >div {
+        flex: 1;
+    }
+}
+
+footer {
+    margin-top: map-get( $interval, xxl );
+    padding: map-get( $interval, xxl );
+    text-align: center;
+    color: map-get($color, light);
+    background-color: map-get( $color, dark );
+}
